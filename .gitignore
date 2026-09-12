@@ -1,0 +1,25 @@
+# Proprietary Mytek firmware - never commit these blobs
+mytekl2.ihx
+mytekap.ihx
+mytekcf.bin
+**/mytekl2.ihx
+**/mytekap.ihx
+**/mytekcf.bin
+
+# Kernel module build artifacts
+*.o
+*.ko
+*.mod
+*.mod.c
+*.cmd
+*.order
+*.symvers
+Module.symvers
+modules.order
+.tmp_versions/
+
+# Private packaging staging/output
+packaging/stage/
+packaging/package-root/
+*.tar.gz
+*.bundle
