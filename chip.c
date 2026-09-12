@@ -31,7 +31,6 @@
 MODULE_AUTHOR("Jurgen Kramer <gtmkramer@xs4all.nl>");
 MODULE_DESCRIPTION("Mytek Digital Stereo192-DSD DAC USB2 audio driver");
 MODULE_LICENSE("GPL v2");
-MODULE_SUPPORTED_DEVICE("{{Mytek Digital,Stereo192-DSD DAC}}");
 
 static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX; /* Index 0-max */
 static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR; /* Id for card */
@@ -112,10 +111,16 @@ static int mytek_chip_probe(struct usb_interface *intf,
 	/* check, if firmware is present on device, upload it if not */
 	ret = mytek_fw_init(intf);
 
-	if (ret < 0)
-		return ret;
-	else if (ret == FW_NOT_READY) /* firmware update performed */
-		return 0;
+	if (ret < 0 || ret == FW_NOT_READY) {
+		mutex_lock(&register_mutex);
+		if (devices[regidx] == device && !chips[regidx])
+			devices[regidx] = NULL;
+		mutex_unlock(&register_mutex);
+
+		if (ret < 0)
+			return ret;
+		return 0; /* firmware update performed */
+	}
 
 	/* if we are here, card can be registered in alsa. */
 	if (usb_set_interface(device, 0, 0) != 0) {

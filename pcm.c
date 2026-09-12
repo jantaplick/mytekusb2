@@ -409,18 +409,6 @@ static int mytek_pcm_close(struct snd_pcm_substream *alsa_sub)
 	return 0;
 }
 
-static int mytek_pcm_hw_params(struct snd_pcm_substream *alsa_sub,
-		struct snd_pcm_hw_params *hw_params)
-{
-	return snd_pcm_lib_alloc_vmalloc_buffer(alsa_sub,
-			params_buffer_bytes(hw_params));
-}
-
-static int mytek_pcm_hw_free(struct snd_pcm_substream *alsa_sub)
-{
-	return snd_pcm_lib_free_vmalloc_buffer(alsa_sub);
-}
-
 static int mytek_pcm_prepare(struct snd_pcm_substream *alsa_sub)
 {
 	struct pcm_runtime *rt = snd_pcm_substream_chip(alsa_sub);
@@ -520,13 +508,9 @@ static struct snd_pcm_ops pcm_ops = {
 	.open = mytek_pcm_open,
 	.close = mytek_pcm_close,
 	.ioctl = snd_pcm_lib_ioctl,
-	.hw_params = mytek_pcm_hw_params,
-	.hw_free = mytek_pcm_hw_free,
 	.prepare = mytek_pcm_prepare,
 	.trigger = mytek_pcm_trigger,
 	.pointer = mytek_pcm_pointer,
-	.page = snd_pcm_lib_get_vmalloc_page,
-	.mmap = snd_pcm_lib_mmap_vmalloc,
 };
 
 static void mytek_pcm_init_urb(struct pcm_urb *urb,
@@ -622,12 +606,14 @@ int mytek_pcm_init(struct mytek_chip *chip)
 	pcm->private_data = rt;
 	strcpy(pcm->name, "Mytek USB2");
 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &pcm_ops);
+	ret = snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_VMALLOC,
+			NULL, 0, 0);
 
-	if (ret) {
+	if (ret < 0) {
+		dev_err(&chip->dev->dev,
+			"error setting up pcm buffers.\n");
 		mytek_pcm_buffers_destroy(rt);
 		kfree(rt);
-		dev_err(&rt->chip->dev->dev,
-			"error preallocating pcm buffers.\n");
 		return ret;
 	}
 	rt->instance = pcm;
