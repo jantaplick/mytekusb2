@@ -1,0 +1,23 @@
+# Proprietary Mytek firmware blobs - never commit these
+mytekap.ihx
+mytekl2.ihx
+mytekcf.bin
+firmware/mytek/*.ihx
+firmware/mytek/*.bin
+
+# Kernel module and package build artifacts
+*.ko
+*.o
+*.mod
+*.mod.c
+*.order
+*.symvers
+Module.symvers
+modules.order
+.packaging/
+packaging/stage/
+packaging/package-root/
+
+# Editor / OS noise
+.DS_Store
+*~
