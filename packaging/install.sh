@@ -1,8 +1,8 @@
 #!/bin/sh
 set -eu
 
-EXPECTED_VERMAGIC="6.12.74-v7l+ SMP mod_unload modversions ARMv7 p2v8"
-EXPECTED_MODULE_SHA256="176db6a8bf1a5e72a6aed3be6baf917aa1dedb9e0e2673c11f66637079604601"
+EXPECTED_VERMAGIC="6.12.75-v7l+ SMP mod_unload modversions ARMv7 p2v8"
+EXPECTED_MODULE_SHA256="b3bd54d5ebd47c22f1636e04b483bfd9014c6730c8b628ac970fa54183269965"
 
 EXPECTED_MYTEKAP_SHA256="76e05f7f7602997a0de9e0371201349f1904f6d75f1ffe920367fd329a14c041"
 EXPECTED_MYTEKCF_SHA256="4e2158606cffa41e24657e97a526e26b218b0334cc2c76465389d5b6e2013127"
@@ -72,12 +72,12 @@ fi
 echo
 echo "=== Installation ==="
 
-mkdir -p /lib/modules/6.12.74-v7l+/extra
+mkdir -p /lib/modules/6.12.75-v7l+/extra
 mkdir -p /lib/firmware/mytek
 
 install -m 0644 \
     "$SCRIPT_DIR/module/snd-usb-mytek.ko" \
-    /lib/modules/6.12.74-v7l+/extra/snd-usb-mytek.ko
+    /lib/modules/6.12.75-v7l+/extra/snd-usb-mytek.ko
 
 install -m 0644 \
     "$SCRIPT_DIR/firmware/mytek/mytekap.ihx" \
