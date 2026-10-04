@@ -11,14 +11,17 @@ The maintained branch includes recent-kernel compatibility work and a fix for th
 Validated configuration:
 
 - Raspberry Pi 4
-- Volumio 4.119
-- Linux `6.12.74-v7l+` (`armv7l` / `armhf`)
+- Volumio 4.204
+- Linux `6.12.75-v7l+` (`armv7l` / `armhf`)
 - Mytek USB firmware reported by the device as `3.1.35`
 - playback validated at 44.1 kHz and 192 kHz
 - rate switching validated 44.1 -> 192 -> 44.1 kHz
 - direct ALSA playback validated at 192 kHz / S32_LE
+- automatic module loading validated after a clean reboot
 
 The Volumio-specific packaging files in `packaging/` are intentionally tied to the exact tested platform. Do not force-install a kernel module built for a different kernel.
+
+Current validated package metadata is tagged `volumio-4.204-mytek-usb2-package-v2`. The public repository contains scripts and hashes only; proprietary firmware blobs and private binary package archives are not distributed here.
 
 ## Features
 
@@ -69,7 +72,7 @@ A typical build remains:
 make
 ```
 
-On distributions with non-default kernel build trees or compilers, pass the appropriate kernel/build variables explicitly. The Volumio 4.119 validation used the exact Raspberry Pi kernel source corresponding to `6.12.74-v7l+`.
+On distributions with non-default kernel build trees or compilers, pass the appropriate kernel/build variables explicitly. The Volumio 4.204 validation used the exact Raspberry Pi Linux source commit `89050b1059997d38d55462b323b099a6436dc10d` corresponding to `6.12.75-v7l+`, with matching symbol versions from Raspberry Pi firmware commit `98655d3ccedba33aeadd0e550229f1496c5bf6f9`.
 
 ## Verify
 

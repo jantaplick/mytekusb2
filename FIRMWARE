@@ -36,7 +36,7 @@ Current validated firmware loading behavior
 
 The maintained driver branch fixes a re-probe bug that previously prevented the
 multi-stage firmware sequence from continuing automatically after USB
-re-enumeration. On the validated Volumio 4.119 / Raspberry Pi setup, a cold DAC
+re-enumeration. On the validated Volumio 4.204 / Raspberry Pi 4 setup, a cold DAC
 power-on proceeds through the firmware stages automatically and reaches:
 
   Mytek USB firmware 3.1.35 loaded.
