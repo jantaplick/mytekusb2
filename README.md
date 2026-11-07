@@ -19,6 +19,21 @@ Validated configuration:
 - direct ALSA playback validated at 192 kHz / S32_LE
 - automatic module loading validated after a clean reboot
 
+### Volumio 4.239 compatibility check (November 7, 2026)
+
+Volumio 4.239 on the same Raspberry Pi 4 still runs kernel `6.12.75-v7l+`. The existing `snd_usb_mytek` module from the 4.204 build is therefore still in place and was loaded without rebuilding or source changes.
+
+Observed on Volumio 4.239:
+
+- installed module SHA256: `b3bd54d5ebd47c22f1636e04b483bfd9014c6730c8b628ac970fa54183269965` (unchanged)
+- `snd_usb_mytek` loaded and ALSA recognized `Mytek Stereo192-DSD USB2` as card `USB2`
+- an initial FPGA firmware upload attempt timed out (`error -110`); after powering the DAC off and on again, the driver automatically completed initialization (`Mytek USB firmware 3.1.35 loaded.`)
+- **Volumio audio playback at 44.1/192 kHz has not yet been revalidated on 4.239**, because a Qobuz stream-URL retrieval problem prevented playback
+
+**Volumio 4.204 remains the latest fully playback-validated release.** The `packaging/` scripts and the private v2 archive deliberately continue to target Volumio **4.204**, not 4.239. Do not use those scripts to force-install on another Volumio version.
+
+Community discussion: [Mytek Stereo192-DSD USB2 on Raspberry Pi 4 / Volumio 4.119](https://community.volumio.com/t/mytek-stereo192-dsd-usb2-on-raspberry-pi-4-volumio-4-119/77565).
+
 The Volumio-specific packaging files in `packaging/` are intentionally tied to the exact tested platform. Do not force-install a kernel module built for a different kernel.
 
 Current validated package metadata is tagged `volumio-4.204-mytek-usb2-package-v2`. The public repository contains scripts and hashes only; proprietary firmware blobs and private binary package archives are not distributed here.
